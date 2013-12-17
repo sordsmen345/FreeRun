@@ -5,7 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import org.lwjgl.opengl.GL11;
+
+import api.player.client.ClientPlayerAPI;
+import api.player.client.ClientPlayerBase;
+import api.player.forge.PlayerAPIContainer;
+import api.player.server.ServerPlayerAPI;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -53,8 +62,8 @@ public class FreeRun
 		
 		instance = this;
 		
-		PlayerAPI.register("Freerun", FR_FreerunPlayer.class);
-		RenderPlayerAPI.register("Freerun", FR_Animator.class);
+		ClientPlayerAPI.register("Freerun", FR_FreerunPlayer.class);
+		ServerPlayerAPI.register("Freerun", FR_Animator.class);
 	}
 	
 	public String getVersion()
@@ -135,7 +144,7 @@ public class FreeRun
 		
 		if (properties.enableBarWood)
 		{
-			FreeRun.barWood = (new FR_BlockWoodBar(properties.barWoodId, 4)).setHardness(2.0F).setResistance(5F).setStepSound(Block.soundWoodFootstep).setBlockName("barWood");
+			barWood = (new FR_BlockWoodBar(properties.barWoodId, 4)).setHardness(2.0F).setResistance(5F).setStepSound(Block.soundWoodFootstep).setBlockName("barWood");
 			
 			GameRegistry.registerBlock(FreeRun.barWood);
 			LanguageRegistry.addName(FreeRun.barWood, "Wooden Bar");
@@ -247,7 +256,6 @@ public class FreeRun
 			
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}
-@SidedProxy(clientSide = "tutorial.TutorialClient", serverSide= "tutorial.TutorialProxy");
 	}
 	
 	public FR_Properties		properties;
@@ -259,7 +267,6 @@ public class FreeRun
 	public int					keyLeft;
 	public int					keyRight;
 	
-	public static FreeRunProxy 	proxy;
 	public static FreeRun		instance;
 	public static Block			edgeWood;
 	public static Block			edgeStone;

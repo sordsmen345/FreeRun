@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.Minecraft;
 
 public class FR_Properties

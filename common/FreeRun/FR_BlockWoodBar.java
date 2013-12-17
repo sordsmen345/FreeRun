@@ -2,6 +2,11 @@ package FreeRun;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
 public class FR_BlockWoodBar extends Block
 {
 	protected FR_BlockWoodBar(int i, int j)
@@ -53,7 +58,7 @@ public class FR_BlockWoodBar extends Block
 	@Override
 	public int getRenderType()
 	{
-		return mod_FreeRun.instance.properties.barWoodModel;
+		return FreeRun.instance.properties.barWoodModel;
 	}
 	
 	@Override

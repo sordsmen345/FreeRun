@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
+
+import api.player.client.ClientPlayerAPI;
+import api.player.forge.PlayerAPIContainer;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -15,7 +20,7 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 
-public class FR_FreerunPlayer extends PlayerBase
+public class FR_FreerunPlayer
 {
 	public FR_Move				move;
 	public FR_Situation			situation;
@@ -33,9 +38,9 @@ public class FR_FreerunPlayer extends PlayerBase
 	private float				prevRollAnimation;
 	private boolean				freerunKeyEvent;
 	
-	public FR_FreerunPlayer(PlayerAPI playerapi)
+	public FR_FreerunPlayer(ClientPlayerAPI clientplayerapi)
 	{
-		super(playerapi);
+		super();
 		FreeRun.instance.setFreerunPlayer(this);
 		climbableBlocks = new ArrayList<Integer>();
 		climbableInside = new ArrayList<Integer>();
@@ -59,24 +64,29 @@ public class FR_FreerunPlayer extends PlayerBase
 		climbableBlocks.add(Block.dispenser.blockID);
 		climbableBlocks.add(Block.music.blockID);
 		climbableBlocks.add(Block.bed.blockID);
-		climbableBlocks.add(Block.stairDouble.blockID);
-		climbableBlocks.add(Block.stairSingle.blockID);
+		climbableBlocks.add(Block.stoneDoubleSlab.blockID);
+		climbableBlocks.add(Block.stoneSingleSlab.blockID);
 		climbableBlocks.add(Block.bookShelf.blockID);
 		climbableBlocks.add(Block.tilledField.blockID);
 		climbableBlocks.add(Block.mobSpawner.blockID);
-		climbableBlocks.add(Block.stairCompactPlanks.blockID);
+		climbableBlocks.add(Block.woodDoubleSlab.blockID);
+		climbableBlocks.add(Block.woodSingleSlab.blockID);
+		climbableBlocks.add(Block.stairsWoodBirch.blockID);
+		climbableBlocks.add(Block.stairsWoodSpruce.blockID);
+		climbableBlocks.add(Block.stairsWoodJungle.blockID);
+		climbableBlocks.add(Block.stairsWoodOak.blockID);
 		climbableBlocks.add(Block.chest.blockID);
 		climbableBlocks.add(Block.workbench.blockID);
-		climbableBlocks.add(Block.stoneOvenIdle.blockID);
-		climbableBlocks.add(Block.stoneOvenActive.blockID);
+		climbableBlocks.add(Block.furnaceIdle.blockID);
+		climbableBlocks.add(Block.furnaceBurning.blockID);
 		climbableBlocks.add(Block.signWall.blockID);
 		climbableBlocks.add(Block.signPost.blockID);
 		climbableBlocks.add(Block.doorWood.blockID);
-		climbableBlocks.add(Block.doorSteel.blockID);
+		climbableBlocks.add(Block.doorIron.blockID);
 		climbableBlocks.add(Block.pistonBase.blockID);
 		climbableBlocks.add(Block.pistonStickyBase.blockID);
 		climbableBlocks.add(Block.pistonExtension.blockID);
-		climbableBlocks.add(Block.stairCompactCobblestone.blockID);
+		climbableBlocks.add(Block.stairsCobblestone.blockID);
 		climbableBlocks.add(Block.jukebox.blockID);
 		climbableBlocks.add(Block.pumpkin.blockID);
 		climbableBlocks.add(Block.pumpkinLantern.blockID);
@@ -84,7 +94,7 @@ public class FR_FreerunPlayer extends PlayerBase
 		climbableBlocks.add(Block.trapdoor.blockID);
 		climbableBlocks.add(Block.netherFence.blockID);
 		climbableBlocks.add(Block.stairsNetherBrick.blockID);
-		climbableBlocks.add(Block.stairsStoneBrickSmooth.blockID);
+		climbableBlocks.add(Block.stairsStoneBrick.blockID);
 		climbableBlocks.add(Block.stairsBrick.blockID);
 		climbableBlocks.add(Block.fenceGate.blockID);
 		climbableBlocks.add(Block.lockedChest.blockID);
@@ -96,7 +106,8 @@ public class FR_FreerunPlayer extends PlayerBase
 		}
 		
 		//INSIDE
-		climbableInside.add(Block.button.blockID);
+		climbableInside.add(Block.stoneButton.blockID);
+		climbableInside.add(Block.woodenButton.blockID);
 		climbableInside.add(Block.fenceIron.blockID);
 		
 		if (FreeRun.edgeWood != null)
@@ -397,15 +408,15 @@ public class FR_FreerunPlayer extends PlayerBase
 			{
 				if (freeRunning)
 				{
-					return mod_FreeRun.instance.properties.speedMultiplier;
-				} else if (isOnCertainBlock(mod_FreeRun.barWood.blockID))
+					return FreeRun.instance.properties.speedMultiplier;
+				} else if (isOnCertainBlock(FreeRun.barWood.blockID))
 				{
 					return 0.5F;
 				}
 			}
 		} else if (freeRunning)
 		{
-			return mod_FreeRun.instance.properties.speedMultiplier;
+			return FreeRun.instance.properties.speedMultiplier;
 		}
 		return super.getSpeedModifier();
 	}
@@ -543,22 +554,22 @@ public class FR_FreerunPlayer extends PlayerBase
 	
 	public boolean isMovingForwards()
 	{
-		return Keyboard.isKeyDown(mod_FreeRun.instance.keyForward);
+		return Keyboard.isKeyDown(FreeRun.instance.keyForward);
 	}
 	
 	public boolean isMovingBackwards()
 	{
-		return Keyboard.isKeyDown(mod_FreeRun.instance.keyBackward);
+		return Keyboard.isKeyDown(FreeRun.instance.keyBackward);
 	}
 	
 	public boolean isMovingLeft()
 	{
-		return Keyboard.isKeyDown(mod_FreeRun.instance.keyLeft);
+		return Keyboard.isKeyDown(FreeRun.instance.keyLeft);
 	}
 	
 	public boolean isMovingRight()
 	{
-		return Keyboard.isKeyDown(mod_FreeRun.instance.keyRight);
+		return Keyboard.isKeyDown(FreeRun.instance.keyRight);
 	}
 	
 	public boolean canWallrun()

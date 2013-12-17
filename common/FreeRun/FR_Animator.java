@@ -1,13 +1,15 @@
 package FreeRun;
 
-public class FR_Animator extends RenderPlayerBase
+import net.minecraft.entity.Entity;
+
+public class FR_Animator
 {
 	public FR_Animator(RenderPlayerAPI renderplayerapi)
 	{
 		super(renderplayerapi);
 		freerun = null;
 		renderTime = 0F;
-		mod_FreeRun.instance.setAnimator(this);
+		FreeRun.instance.setAnimator(this);
 	}
 	
 	public void setFreerunPlayer(FR_FreerunPlayer freerun)
@@ -22,7 +24,7 @@ public class FR_Animator extends RenderPlayerBase
 	
 	public void onRender(ModelBiped model, Entity entity)
 	{
-		if (!mod_FreeRun.instance.properties.enableAnimations || freerun == null || freerun.player != entity)
+		if (!FreeRun.instance.properties.enableAnimations || freerun == null || freerun.player != entity)
 		{
 			return;
 		}

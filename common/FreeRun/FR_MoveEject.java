@@ -41,7 +41,7 @@ public class FR_MoveEject extends FR_Move
 		{
 			if (!freerunEngine.player.worldObj.isRemote)
 			{
-				if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem().shiftedIndex == mod_FreeRun.climbGlove.shiftedIndex)
+				if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem().itemID == FreeRun.climbGlove.itemID)
 				{
 					freerunEngine.isClimbing = false;
 					player.addVelocity(0D, 0.5D, 0D);
